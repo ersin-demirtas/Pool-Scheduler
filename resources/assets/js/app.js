@@ -18,5 +18,21 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+    	job_end: ''
+    	// message: 'Hello World'
+    },
+    methods: {
+   		onStartSelected: function() {
+   			var start_time = $("select#job_start").val();
+	    	var end_time = parseInt(start_time,10) + 300;
+	    	$("select#job_end").val(end_time);
+	    },
+	    setDropAddress: function() {
+	    	alert("Hello World");
+	    }
+    }
+ 
+
 });
