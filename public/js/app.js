@@ -992,9 +992,23 @@ Vue.component('example-component', __webpack_require__(38));
 var app = new Vue({
   el: '#app',
   data: {
-    job_end: ''
-    // message: 'Hello World'
+    job_end: '',
+    cloths: [],
+    colors: []
   },
+
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('../getCloth').then(function (response) {
+      return _this.cloths = response.data;
+    });
+    axios.get('../getColor').then(function (response) {
+      return _this.colors = response.data;
+    });
+  },
+
+
   methods: {
     onStartSelected: function onStartSelected() {
       var start_time = $("select#job_start").val();
@@ -1002,8 +1016,25 @@ var app = new Vue({
       $("select#job_end").val(end_time);
     },
     setDropAddress: function setDropAddress() {
-      alert("Hello World");
+      $('#dropoff_name').val($('#pickup_name').val());
+      $('#dropoff_phone').val($('#pickup_phone').val());
+      $('#dropoff_email').val($('#pickup_email').val());
+      $('#dropoff_street').val($('#pickup_street').val());
+      $('#dropoff_city').val($('#pickup_city').val());
+      $('#dropoff_state').val($('#pickup_state').val());
+      $('#dropoff_zip').val($('#pickup_zip').val());
+    },
+    getServiceCost: function getServiceCost(id) {
+      var totalCost = 0;
+      axios.get('../service/cost/' + id).then(function (response) {
+        totalCost = response.data;
+        $('#job_quote').val(response.data);
+      });
+    },
+    populateColors: function populateColors(id) {
+      alert("select");
     }
+
   }
 
 });

@@ -20,9 +20,18 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 const app = new Vue({
     el: '#app',
     data: {
-    	job_end: ''
-    	// message: 'Hello World'
+    	job_end: '',
+    	cloths: [],
+    	colors: []
     },
+
+    mounted() {
+    	axios.get('../getCloth').then(
+    		response => this.cloths = response.data);
+    	axios.get('../getColor').then(
+    		response => this.colors = response.data);
+    },
+
     methods: {
    		onStartSelected: function() {
    			var start_time = $("select#job_start").val();
@@ -30,9 +39,28 @@ const app = new Vue({
 	    	$("select#job_end").val(end_time);
 	    },
 	    setDropAddress: function() {
-	    	alert("Hello World");
-	    }
+	    	$('#dropoff_name').val($('#pickup_name').val());
+	        $('#dropoff_phone').val($('#pickup_phone').val());
+	        $('#dropoff_email').val($('#pickup_email').val());
+	        $('#dropoff_street').val($('#pickup_street').val());
+	        $('#dropoff_city').val($('#pickup_city').val());
+	        $('#dropoff_state').val($('#pickup_state').val());
+	        $('#dropoff_zip').val($('#pickup_zip').val());
+	    },
+      getServiceCost: function(id) {
+        var totalCost =0;
+        axios.get('../service/cost/' + id).then(
+          function (response) {
+            totalCost = response.data;
+            $('#job_quote').val(response.data);
+          }
+        )
+      },
+      populateColors: function(id) {
+      	alert("select");
+      },
+
     }
- 
+
 
 });

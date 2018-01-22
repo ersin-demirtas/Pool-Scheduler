@@ -112,7 +112,7 @@
             <div class="col-sm-6"> <!-- CUSTOMER DROPOFF START -->
                 <div class="form-group col-sm-12">
                     <label for="dropoff_name">Customer Name (Drop-Off Location):</label>
-                    <button v-on:click="setDropAddress">Same as pickup</button>
+                    <span class="btn btn-danger btn-xs" v-on:click="setDropAddress">Set Same as Pickup</span>
                     <!-- {!! Form::label('dropoff_name', 'Customer Name (Drop-Off Location):') !!} -->
                     {!! Form::text('dropoff_name', '', ['class' => 'form-control']) !!}
                 </div>
@@ -142,16 +142,60 @@
                 </div>
             </div> <!-- CUSTOMER DROPOFF END -->
             <div class="col-sm-12">
+                {!! Form::label('job_type', 'Select Job Type:') !!}
                 <div class="form-group">
+
                     @foreach($services as $service)
                     <div class="col-sm-6">
-                        <input type="checkbox" name="job_type[]" value="{{$service->id}}">{{$service->title_long}}
+                        <input @change="getServiceCost({{$service->id}})" type="checkbox" name="job_type[]" value="{{$service->id}}">{{$service->title_long}}
                     </div>
                     @endforeach
                 </div>
             </div>
-            <div class="form-group">
-                {{ Form::submit('Create New Note', ['class' => 'btn admin-button']) }}
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('table_size', 'Table Size:') !!}
+                    <select class="form-control" name="table_size" id="table_size">
+                        <option value="0">Select Table Size</option>
+                        <option value="7">7 ft</option>
+                        <option value="8">8 ft</option>
+                        <option value="9">9 ft</option>
+                        <option value="10">10 ft</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('cloth_type', 'Cloth Type:') !!}
+                    <select class="form-control" name="cloth_type" id="cloth_type" v-on:change="">
+                        <option value="0">Select Cloth Type</option>
+                        <option v-for="cloth in cloths" value="@{{ cloth.id}}">@{{ cloth.name }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('cloth_color', 'Cloth Color:') !!}
+                    <select class="form-control" name="cloth_color" id="cloth_color">
+                        <option value="0">Select Cloth Color</option>
+                        <option v-for="color in colors" value="@{{ color.id}}">@{{ color.name }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    {!! Form::label('job_notes', 'Notes:') !!}
+                    {!! Form::textarea('job_notes', '', ['class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="col-sm-6">
+                {!! Form::label('job_quote', 'Job Quote Estimate:') !!}
+                <input type="text" id="job_quote">
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    {{ Form::submit('Schedule Job', ['class' => 'btn btn-success']) }}
+                </div>
             </div>
 
             {{ Form::close() }}
