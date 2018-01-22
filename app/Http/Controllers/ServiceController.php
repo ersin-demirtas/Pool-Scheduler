@@ -13,7 +13,7 @@ class ServiceController extends Controller
       return $service->cost;
 	}    
 	public function getServiceCost2(Request $request) {
-	    $service = Service::whereIn('id', array($request->get('id')))->get();
+	    $service = Service::whereIn('id', $request->get('id'))->get();
 
 	    return $service;
 	}
